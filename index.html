@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Operação Eficiência | Missões Logísticas</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300,0,0&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #091421;
+            --panel: #132438;
+            --line: #29415a;
+            --orange: #ff9c42;
+            --blue: #53baff;
+            --green: #4de0a4;
+            --text: #edf5ff;
+            --muted: #a6bad0
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(circle at 80% -10%, #1b3b57, transparent 45%), var(--bg);
+            font-family: system-ui, 'Segoe UI', sans-serif;
+            color: var(--text)
+        }
+
+        button {
+            cursor: pointer;
+            font: inherit
+        }
+
+        button:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .wrap {
+            max-width: 1240px;
+            margin: auto;
+            padding: 24px
+        }
+
+        .top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 20px
+        }
+
+        .logo {
+            font-weight: 900;
+            letter-spacing: 1px;
+            font-size: 20px
+        }
+
+        .logo span,
+        .accent {
+            color: var(--orange)
+        }
+
+        .chip {
+            background: #173b42;
+            border: 1px solid #2d7774;
+            color: #7af1c5;
+            border-radius: 99px;
+            padding: 9px 14px;
+            font-size: 12px
+        }
+
+        .hero {
+            margin: 28px 0;
+            padding: 28px;
+            border: 1px solid #3b536a;
+            border-radius: 20px;
+            background: linear-gradient(115deg, #1d3449, #0e1e30);
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+            overflow: hidden
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: var(--orange);
+            font-weight: 800
+        }
+
+        h1 {
+            font-size: clamp(30px, 4vw, 52px);
+            line-height: 1.07;
+            margin: 15px 0
+        }
+
+        p {
+            color: var(--muted);
+            line-height: 1.6
+        }
+
+        .illustration {
+            display: grid;
+            place-items: center;
+            position: relative;
+            min-height: 180px;
+            background: repeating-linear-gradient(0deg, transparent 0 29px, #ffffff09 30px), repeating-linear-gradient(90deg, transparent 0 29px, #ffffff09 30px);
+            border-radius: 15px
+        }
+
+        .illustration span {
+            font-size: clamp(64px, 8vw, 110px);
+            filter: drop-shadow(0 15px 10px #0008)
+        }
+
+        .btn {
+            background: var(--orange);
+            border: 0;
+            border-radius: 10px;
+            padding: 13px 18px;
+            font-weight: 800;
+            color: #162334
+        }
+
+        .btn.secondary {
+            background: #223a50;
+            color: #eaf4ff;
+            border: 1px solid #48637b
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px
+        }
+
+        .stat,
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 15px;
+            padding: 20px
+        }
+
+        .stat .label {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 27px;
+            margin: 9px 0
+        }
+
+        .meter {
+            height: 8px;
+            background: #29394a;
+            border-radius: 8px;
+            overflow: hidden
+        }
+
+        .meter i {
+            display: block;
+            background: linear-gradient(90deg, var(--orange), #ffe18d);
+            height: 100%;
+            transition: width .4s
+        }
+
+        .stat small {
+            display: block;
+            margin-top: 9px;
+            color: #a9c5d7;
+            font-size: 11px
+        }
+
+        .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 28px 0 12px;
+            gap: 12px
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 22px
+        }
+
+        .stages {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px
+        }
+
+        .stage {
+            background: #162a3e;
+            border: 1px solid #36516a;
+            border-radius: 13px;
+            padding: 18px;
+            text-align: left;
+            color: var(--text);
+            min-height: 125px
+        }
+
+        .stage:not(:disabled):hover {
+            border-color: var(--orange);
+            transform: translateY(-2px)
+        }
+
+        .stage b {
+            display: block;
+            margin: 8px 0
+        }
+
+        .stage small {
+            color: var(--muted)
+        }
+
+        .stage.done {
+            border-color: #2c8a69
+        }
+
+        .stage.current {
+            border-color: var(--orange)
+        }
+
+        .stage .number {
+            color: var(--orange);
+            font-size: 12px;
+            font-weight: 900
+        }
+
+        .foot {
+            margin-top: 25px;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 5;
+            background: #020910eb;
+            display: grid;
+            place-items: center;
+            padding: 15px
+        }
+
+        .overlay.hidden {
+            display: none
+        }
+
+        .dialog {
+            width: min(930px, 100%);
+            max-height: 95vh;
+            overflow: auto;
+            background: #12263a;
+            border: 1px solid #45627b;
+            border-radius: 19px;
+            padding: 24px;
+            box-shadow: 0 30px 100px #000b
+        }
+
+        .dialoghead {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 10px
+        }
+
+        .dialoghead h2 {
+            font-size: 27px;
+            margin: 8px 0
+        }
+
+        .close {
+            border: 1px solid #466077;
+            background: #22384d;
+            color: #fff;
+            border-radius: 9px;
+            padding: 8px 13px
+        }
+
+        .game {
+            margin: 18px 0;
+            padding: 18px;
+            border: 1px solid #344e64;
+            background: #0c1d2d;
+            border-radius: 14px;
+            min-height: 260px
+        }
+
+        .instructions {
+            font-size: 13px;
+            color: #bcd0df;
+            margin-bottom: 14px
+        }
+
+        .tiles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px
+        }
+
+        .tile,
+        .target,
+        .route,
+        .choice,
+        .orderItem,
+        .hazard,
+        .audit {
+            border: 1px solid #456078;
+            background: #1a344b;
+            border-radius: 10px;
+            padding: 14px;
+            color: #fff
+        }
+
+        .tile {
+            min-height: 92px;
+            text-align: left
+        }
+
+        .tile .emoji {
+            font-size: 30px;
+            display: block
+        }
+
+        .tile.active,
+        .choice.selected,
+        .orderItem.selected {
+            border: 2px solid var(--orange);
+            background: #443a31
+        }
+
+        .tile.done {
+            opacity: .48
+        }
+
+        .targets {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 9px;
+            margin-top: 13px
+        }
+
+        .target {
+            min-height: 70px;
+            text-align: center;
+            border-style: dashed
+        }
+
+        .target:hover,
+        .route:hover,
+        .hazard:hover,
+        .audit:hover {
+            border-color: var(--orange)
+        }
+
+        .routeGrid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px
+        }
+
+        .route {
+            min-height: 100px;
+            text-align: left
+        }
+
+        .route b {
+            display: block;
+            color: var(--orange);
+            margin-bottom: 8px
+        }
+
+        .map {
+            padding: 12px;
+            background: #112c40;
+            border: 1px dashed #4c718d;
+            border-radius: 10px;
+            margin: 12px 0;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 8px
+        }
+
+        .hazards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px
+        }
+
+        .hazard {
+            text-align: center;
+            min-height: 115px
+        }
+
+        .hazard span {
+            display: block;
+            font-size: 33px;
+            margin-bottom: 8px
+        }
+
+        .hazard.fixed {
+            background: #164436;
+            border-color: var(--green)
+        }
+
+        .orderList {
+            display: grid;
+            gap: 8px
+        }
+
+        .orderItem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-align: left
+        }
+
+        .orderItem .num {
+            color: var(--orange);
+            font-weight: 900
+        }
+
+        .orderItem .arrows {
+            margin-left: auto;
+            display: flex;
+            gap: 5px
+        }
+
+        .mini {
+            background: #294b62;
+            color: #fff;
+            border: 1px solid #55738c;
+            border-radius: 6px;
+            padding: 7px 11px
+        }
+
+        .auditGrid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 9px
+        }
+
+        .audit {
+            text-align: left
+        }
+
+        .audit b {
+            display: block;
+            margin-bottom: 7px
+        }
+
+        .audit small {
+            color: #bed0df
+        }
+
+        .audit.selected {
+            border-color: var(--green);
+            background: #174237
+        }
+
+        .compare {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px
+        }
+
+        .compare .choice {
+            min-height: 190px;
+            text-align: left
+        }
+
+        .choice strong {
+            display: block;
+            color: var(--orange);
+            font-size: 15px
+        }
+
+        .choice small {
+            display: block;
+            margin: 9px 0;
+            color: #b7c8d6
+        }
+
+        .footerActions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        .feedback {
+            padding: 16px;
+            background: #193b35;
+            border: 1px solid #36765e;
+            border-radius: 10px;
+            margin: 14px 0;
+            line-height: 1.6
+        }
+
+        .feedback.warn {
+            background: #493025;
+            border-color: #9b5d35
+        }
+
+        .resultGrid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 10px 0
+        }
+
+        .resultGrid span {
+            padding: 10px;
+            background: #122a3e;
+            border-radius: 8px;
+            font-size: 13px
+        }
+
+        .counter {
+            color: var(--orange);
+            font-weight: 800
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #98b4c7
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .legend span {
+            padding: 8px 10px;
+            border-radius: 8px;
+            background: #1c364c;
+            color: #b9ccdc;
+            font-size: 11px
+        }
+
+        @media(max-width:750px) {
+            .hero {
+                grid-template-columns: 1fr
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .stages {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .tiles,
+            .hazards,
+            .compare {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .dialog {
+                padding: 14px
+            }
+
+            .auditGrid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:470px) {
+            .wrap {
+                padding: 12px
+            }
+
+            .stages,
+            .tiles,
+            .targets,
+            .routeGrid,
+            .hazards,
+            .compare {
+                grid-template-columns: 1fr
+            }
+
+            .stat {
+                padding: 13px
+            }
+
+            .top {
+                align-items: start
+            }
+
+            .chip {
+                font-size: 10px
+            }
+        }
+
+        /* Refinamento visual e estabilidade dos minigames */
+        :root {
+            --bg: #081523;
+            --panel: #12263a;
+            --line: #2a455e;
+            --orange: #ffb36b;
+            --blue: #76c8fa;
+            --green: #66ddb4
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: radial-gradient(ellipse at 15% 0%, #173951 0%, transparent 45%), #081523
+        }
+
+        .hero {
+            position: relative;
+            min-height: 390px;
+            align-items: center;
+            padding: clamp(28px, 5vw, 64px);
+            border: 1px solid #36556c;
+            border-radius: 28px;
+            background: radial-gradient(circle at 90% 20%, #24587588, transparent 45%), linear-gradient(125deg, #17344c, #0b1c2d 72%);
+            box-shadow: 0 24px 60px #0004
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 4.5vw, 64px);
+            letter-spacing: -.045em;
+            line-height: 1.08;
+            max-width: 700px
+        }
+
+        .hero p {
+            max-width: 560px;
+            font-size: 15px
+        }
+
+        .eyebrow {
+            letter-spacing: 1.7px
+        }
+
+        .hero .btn {
+            margin-top: 12px
+        }
+
+        .btn {
+            border-radius: 12px;
+            transition: transform .18s, filter .18s
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            filter: brightness(1.08)
+        }
+
+        .illustration {
+            min-height: 270px;
+            background: transparent;
+            overflow: visible
+        }
+
+        .illustration svg {
+            width: 100%;
+            max-width: 430px;
+            height: auto;
+            filter: drop-shadow(0 22px 25px #0004)
+        }
+
+        .stat,
+        .panel,
+        .stage {
+            box-shadow: 0 8px 22px #0002
+        }
+
+        .stage {
+            transition: border-color .2s, transform .2s
+        }
+
+        .tile,
+        .hazard,
+        .audit,
+        .route,
+        .choice,
+        .target {
+            transition: background .16s, border-color .16s, box-shadow .16s;
+            box-sizing: border-box;
+            border-width: 1px
+        }
+
+        .tile.active,
+        .choice.selected,
+        .orderItem.selected {
+            border-width: 1px;
+            box-shadow: inset 0 0 0 1px var(--orange)
+        }
+
+        .tile {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 7px;
+            min-height: 128px;
+            height: 128px
+        }
+
+        .tile .emoji {
+            font-size: 23px;
+            line-height: 1.2
+        }
+
+        .tile-status {
+            display: block;
+            min-height: 16px;
+            font-size: 11px;
+            color: #9fbcd0
+        }
+
+        .tile.done {
+            opacity: .7
+        }
+
+        .hazard {
+            height: 128px;
+            min-height: 128px
+        }
+
+        .hazard span {
+            font-size: 25px
+        }
+
+        .audit {
+            height: 90px;
+            min-height: 90px
+        }
+
+        .audit b {
+            font-size: 13px
+        }
+
+        .audit small {
+            font-size: 11px
+        }
+
+        .route {
+            height: 108px;
+            min-height: 108px
+        }
+
+        .choice {
+            min-height: 190px
+        }
+
+        .choice.selected,
+        .audit.selected,
+        .hazard.fixed {
+            box-shadow: inset 0 0 0 1px var(--green)
+        }
+
+        .game {
+            scroll-anchor: none
+        }
+
+        .dialog {
+            scrollbar-gutter: stable
+        }
+
+        .hero .btn.secondary {
+            margin-left: 8px
+        }
+
+        @media(max-width:750px) {
+            .hero {
+                min-height: 0
+            }
+
+            .illustration {
+                min-height: 190px
+            }
+
+            .illustration svg {
+                max-width: 340px
+            }
+        }
+
+        @media(max-width:470px) {
+            .hero {
+                padding: 26px 20px
+            }
+
+            .hero .btn.secondary {
+                margin-left: 0
+            }
+
+            .tile,
+            .hazard,
+            .audit,
+            .route {
+                height: auto;
+                min-height: 100px
+            }
+        }
+
+        .mi {
+            font-family: 'Material Symbols Outlined';
+            font-weight: 300;
+            font-style: normal;
+            font-size: 22px;
+            line-height: 1;
+            display: inline-flex;
+            vertical-align: -.2em;
+            letter-spacing: normal;
+            white-space: nowrap;
+            direction: ltr;
+            font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            color: inherit
+        }
+
+        .tile .mi,
+        .hazard .mi {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 9px;
+            color: #9fd7ef
+        }
+
+        .illustration .mi {
+            font-size: clamp(48px, 6vw, 86px);
+            color: #9fd7ef
+        }
+
+        .stage .mi,
+        .stat .mi,
+        .heading .mi {
+            font-size: 21px;
+            color: #ffb875;
+            margin-right: 5px
+        }
+
+        .target .mi,
+        .route .mi {
+            font-size: 23px;
+            color: #9fd7ef
+        }
+
+        .tile,
+        .hazard,
+        .audit,
+        .choice,
+        .route {
+            transition: background .18s, border-color .18s;
+        }
+
+        .tile.active,
+        .choice.selected,
+        .orderItem.selected {
+            border-width: 1px;
+            box-shadow: inset 0 0 0 1px var(--orange)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header class="top">
+            <div class="logo"><span class="material-symbols-outlined mi" aria-hidden="true">warehouse</span> OPERAÇÃO
+                <span>EFICIÊNCIA</span></div>
+            <div class="chip"><span class="material-symbols-outlined mi" aria-hidden="true">circle</span> CENTRO DE
+                DISTRIBUIÇÃO ONLINE</div>
+        </header>
+        <section class="hero">
+            <div>
+                <div class="eyebrow">SIMULADOR DE GESTÃO LOGÍSTICA • 5S + BENCHMARKING</div>
+                <h1>Salve a empresa.<br><span class="accent">Recupere a operação.</span></h1>
+                <p>Uma distribuidora está perdendo dinheiro com desperdícios, atrasos e falhas. Enfrente seis minigames
+                    diferentes, tome decisões sob pressão e alcance as metas.</p><button class="btn" id="start">INICIAR
+                    MISSÃO →</button> <button class="btn secondary" id="reset">REINICIAR</button>
+            </div>
+            <div class="illustration"><svg viewBox="0 0 480 340" xmlns="http://www.w3.org/2000/svg" role="img"
+                    aria-label="Ilustração de centro de distribuição com caixas e caminhão">
+                    <defs>
+                        <linearGradient id="warehouse" x1="0" y1="0" x2="1" y2="1">
+                            <stop stop-color="#4e92b3" />
+                            <stop offset="1" stop-color="#24506e" />
+                        </linearGradient>
+                        <linearGradient id="truck" x1="0" y1="0" x2="1" y2="1">
+                            <stop stop-color="#ffc78c" />
+                            <stop offset="1" stop-color="#f59d59" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="250" cy="160" r="145" fill="#55b9ed" opacity=".08" />
+                    <circle cx="250" cy="160" r="115" fill="#55b9ed" opacity=".07" />
+                    <path d="M65 265H440" stroke="#79a5bf" stroke-width="3" stroke-linecap="round" opacity=".45" />
+                    <path d="M115 125 240 58 370 125v137H115Z" fill="url(#warehouse)" stroke="#79c4e9"
+                        stroke-width="3" />
+                    <path d="M103 125 240 50 382 125" fill="none" stroke="#9bd5ed" stroke-width="9"
+                        stroke-linejoin="round" />
+                    <rect x="158" y="160" width="170" height="102" rx="5" fill="#122d43" stroke="#79b4d3"
+                        stroke-width="3" />
+                    <path d="M158 187H328M158 213H328M158 239H328" stroke="#49738d" stroke-width="2" />
+                    <rect x="174" y="179" width="49" height="49" rx="4" fill="#e8b980" />
+                    <path d="M174 193 198 205 223 193M198 205v23" fill="none" stroke="#b8844f" stroke-width="2" />
+                    <rect x="240" y="190" width="65" height="38" rx="4" fill="#f5ce9b" />
+                    <path d="M240 201 272 216 305 201" stroke="#c6925c" stroke-width="2" fill="none" />
+                    <rect x="50" y="238" width="110" height="41" rx="7" fill="url(#truck)" />
+                    <path d="M160 248h42l21 21v10h-63Z" fill="#f4aa67" />
+                    <rect x="170" y="253" width="25" height="14" rx="3" fill="#315e78" />
+                    <circle cx="84" cy="280" r="16" fill="#172a3a" stroke="#9eb9c8" stroke-width="5" />
+                    <circle cx="189" cy="280" r="16" fill="#172a3a" stroke="#9eb9c8" stroke-width="5" />
+                    <rect x="348" y="212" width="58" height="50" rx="5" fill="#d5a66e" />
+                    <path d="M348 225 377 239 406 225M377 239v23" fill="none" stroke="#9e7448" stroke-width="2" />
+                    <circle cx="395" cy="86" r="24" fill="#173e51" stroke="#70d6bd" stroke-width="2" />
+                    <path d="m384 86 8 8 15-17" fill="none" stroke="#70d6bd" stroke-width="4" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <circle cx="92" cy="97" r="5" fill="#ffb36b" />
+                    <circle cx="420" cy="164" r="4" fill="#6ad7bb" />
+                </svg></div>
+        </section>
+        <div class="heading">
+            <h2><span class="material-symbols-outlined mi" aria-hidden="true">monitoring</span> Painel de indicadores
+            </h2><span class="hint">Meta: ≥ 80% em cada KPI</span>
+        </div>
+        <div class="stats" id="stats"></div>
+        <section class="panel" style="margin-top:14px"><b>Como interpretar os KPIs?</b>
+            <p style="margin-bottom:0;font-size:13px"><b>Produtividade</b> = entregas processadas no prazo.
+                <b>Organização</b> = materiais no endereço correto. <b>Qualidade</b> = operações sem erros.
+                <b>Orçamento</b> = dinheiro restante para executar melhorias. Os percentuais são indicadores simulados
+                para fins educativos.</p>
+        </section>
+        <div class="heading">
+            <h2><span class="material-symbols-outlined mi" aria-hidden="true">sports_esports</span> Missões operacionais
+            </h2><span id="progress" class="counter">0 / 6 concluídas</span>
+        </div>
+        <div id="stages" class="stages"></div>
+        <div class="foot">Projeto educacional • Dados, custos e empresas simulados • Seu progresso fica salvo neste
+            navegador. Desenvolvido por Tiago Chaves Souza, Ana Gabriela, e Vitória Silva</div>
+    </div>
+    <div class="overlay hidden" id="overlay">
+        <div class="dialog">
+            <div class="dialoghead">
+                <div>
+                    <div class="eyebrow" id="eyebrow"></div>
+                    <h2 id="title"></h2>
+                </div><button class="close" id="close"><span class="material-symbols-outlined mi"
+                        aria-hidden="true">close</span></button>
+            </div>
+            <p id="description"></p>
+            <div id="game" class="game"></div>
+            <div id="feedback" class="feedback" hidden></div>
+            <div class="footerActions"><span class="counter" id="counter"></span><button id="action" class="btn">VALIDAR
+                    OPERAÇÃO →</button></div>
+        </div>
+    </div>
+    <script>
+        const missions = [['Seiri', 'Triagem de estoque', 'Classifique oito itens nos destinos corretos.'], ['Seiton', 'Roteirização do armazém', 'Escolha o melhor endereço de cada carga.'], ['Seiso', 'Caça aos riscos', 'Encontre os riscos reais sem interromper a operação à toa.'], ['Seiketsu', 'Fluxo padronizado', 'Reorganize a sequência de conferência e expedição.'], ['Shitsuke', 'Auditoria de rotina', 'Selecione as ações que mantêm a melhoria contínua.'], ['Benchmarking', 'Projeto de melhoria', 'Monte um pacote de práticas com orçamento limitado.']]; const initial = () => ({ step: 0, productivity: 42, organization: 28, quality: 45, budget: 12000, score: 0 }); let state = initial(), current = null, completed = false, stagePoints = 0; const $ = id => document.getElementById(id); const fmt = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }); const clamp = n => Math.max(0, Math.min(100, n)); function shuffle(a) { return [...a].sort(() => Math.random() - .5) } function save() { localStorage.setItem('operacaoMiniV2', JSON.stringify(state)) } function render() { const data = [['Produtividade', state.productivity, '<span class="material-symbols-outlined mi" aria-hidden="true">local_shipping</span>', 'Pedidos processados no prazo'], ['Organização', state.organization, '<span class="material-symbols-outlined mi" aria-hidden="true">inventory_2</span>', 'Itens armazenados no local certo'], ['Qualidade', state.quality, '<span class="material-symbols-outlined mi" aria-hidden="true">check</span>', 'Operações sem falhas'], ['Orçamento', state.budget, '<span class="material-symbols-outlined mi" aria-hidden="true">account_balance_wallet</span>', 'Saldo disponível para melhorias']]; $('stats').innerHTML = data.map((x, i) => `<div class="stat"><div class="label">${x[2]} ${x[0]}</div><strong>${i === 3 ? fmt(x[1]) : x[1] + '%'}</strong><div class="meter"><i style="width:${i === 3 ? clamp(x[1] / 120) : x[1]}%"></i></div><small>${x[3]} ${i === 3 ? '• evitar saldo negativo' : '• meta 80%'}</small></div>`).join(''); $('stages').innerHTML = missions.map((m, i) => `<button class="stage ${i < state.step ? 'done' : i === state.step ? 'current' : ''}" ${i !== state.step || state.step === 6 ? 'disabled' : ''} data-stage="${i}"><span class="number">${i < state.step ? '<span class="material-symbols-outlined mi" aria-hidden="true">check</span> CONCLUÍDA' : `MISSÃO 0${i + 1}`}</span><b>${['<span class="material-symbols-outlined mi" aria-hidden="true">inventory_2</span>', '<span class="material-symbols-outlined mi" aria-hidden="true">map</span>', '<span class="material-symbols-outlined mi" aria-hidden="true">cleaning_services</span>', '<span class="material-symbols-outlined mi" aria-hidden="true">sync</span>', '<span class="material-symbols-outlined mi" aria-hidden="true">assignment</span>', '<span class="material-symbols-outlined mi" aria-hidden="true">trending_up</span>'][i]} ${m[0]} — ${m[1]}</b><small>${m[2]}</small></button>`).join(''); document.querySelectorAll('[data-stage]').forEach(b => b.onclick = openStage); $('progress').textContent = state.step + ' / 6 concluídas'; $('start').textContent = state.step === 6 ? 'VER RELATÓRIO FINAL →' : 'CONTINUAR MISSÃO →' } function open() { $('overlay').classList.remove('hidden'); document.body.style.overflow = 'hidden' } function close() { $('overlay').classList.add('hidden'); document.body.style.overflow = '' } const triage = [['<span class="material-symbols-outlined mi" aria-hidden="true">inventory_2</span>', 'Caixas em bom estado', 'Manter'], ['<span class="material-symbols-outlined mi" aria-hidden="true">oil_barrel</span>', 'Óleo vencido', 'Descartar'], ['<span class="material-symbols-outlined mi" aria-hidden="true">build</span>', 'Paleteira com defeito', 'Manutenção'], ['<span class="material-symbols-outlined mi" aria-hidden="true">assignment</span>', 'Etiquetas válidas', 'Manter'], ['<span class="material-symbols-outlined mi" aria-hidden="true">carpenter</span>', 'Palete quebrado', 'Manutenção'], ['<span class="material-symbols-outlined mi" aria-hidden="true">warning</span>', 'Produto contaminado', 'Descartar'], ['<span class="material-symbols-outlined mi" aria-hidden="true">handyman</span>', 'Kit de ferramentas', 'Manter'], ['<span class="material-symbols-outlined mi" aria-hidden="true">battery_alert</span>', 'Bateria defeituosa', 'Manutenção']]; const loads = [{ item: '<span class="material-symbols-outlined mi" aria-hidden="true">water_drop</span> Perecíveis', desc: 'Alta rotatividade e validade curta', best: 0 }, { item: '<span class="material-symbols-outlined mi" aria-hidden="true">hardware</span> Peças pesadas', desc: 'Risco de queda se armazenadas em altura', best: 1 }, { item: '<span class="material-symbols-outlined mi" aria-hidden="true">inventory_2</span> Estoque de baixa saída', desc: 'Raramente movimentado', best: 2 }, { item: '<span class="material-symbols-outlined mi" aria-hidden="true">science</span> Produtos frágeis', desc: 'Necessitam área protegida', best: 3 }]; const locations = ['<span class="material-symbols-outlined mi" aria-hidden="true">door_front</span> A • Próximo à expedição', '<span class="material-symbols-outlined mi" aria-hidden="true">fitness_center</span> B • Piso térreo reforçado', '<span class="material-symbols-outlined mi" aria-hidden="true">shelves</span> C • Prateleiras superiores', '<span class="material-symbols-outlined mi" aria-hidden="true">shield</span> D • Área protegida']; const risks = [['<span class="material-symbols-outlined mi" aria-hidden="true">oil_barrel</span>', 'Vazamento de óleo', true], ['<span class="material-symbols-outlined mi" aria-hidden="true">construction</span>', 'Saída de emergência bloqueada', true], ['<span class="material-symbols-outlined mi" aria-hidden="true">inventory_2</span>', 'Caixas no corredor', true], ['<span class="material-symbols-outlined mi" aria-hidden="true">power</span>', 'Cabo elétrico exposto', true], ['<span class="material-symbols-outlined mi" aria-hidden="true">fire_extinguisher</span>', 'Extintor sinalizado', false], ['<span class="material-symbols-outlined mi" aria-hidden="true">health_and_safety</span>', 'Equipe com EPI', false], ['<span class="material-symbols-outlined mi" aria-hidden="true">cleaning_services</span>', 'Piso limpo e seco', false], ['<span class="material-symbols-outlined mi" aria-hidden="true">lightbulb</span>', 'Iluminação funcionando', false], ['<span class="material-symbols-outlined mi" aria-hidden="true">precision_manufacturing</span>', 'Empilhadeira sem inspeção', true]]; const process = ['Registrar pedido', 'Separar itens', 'Conferir quantidades', 'Embalar e etiquetar', 'Autorizar expedição', 'Carregar veículo']; const audit = [['Treinamento periódico', true], ['Auditoria com checklist', true], ['Quadro de indicadores', true], ['Reunião curta de melhorias', true], ['Ignorar desvios pequenos', false], ['Punição sem orientação', false], ['Eliminar registros', false], ['Revisar padrões após falhas', true]]; const practices = [['Código de barras', 1900, 'Reduz erro de identificação', 18, 8, 17], ['Endereçamento visual', 1200, 'Agiliza localização', 10, 20, 8], ['Treinamento por turno', 900, 'Aumenta aderência aos padrões', 7, 8, 13], ['Software completo sem piloto', 4500, 'Alto custo e risco de implantação', 7, 4, 3], ['Auditoria diária', 700, 'Previne recorrência de falhas', 5, 9, 12], ['Dobrar equipe sem analisar gargalos', 3500, 'Custo elevado, ganho limitado', 6, 2, 3]]; function openStage() { if (state.step === 6) { report(); return } completed = false; stagePoints = 0; current = { index: state.step, answers: {}, selected: null, order: shuffle(process), checks: [], riskOrder: shuffle(risks.map((x, n) => n)), auditOrder: shuffle(audit.map((x, n) => n)), locationOrder: shuffle(locations.map((x, n) => n)), budget: 3200 }; $('feedback').hidden = true; $('eyebrow').textContent = `MISSÃO ${state.step + 1} DE 6 • ${missions[state.step][0].toUpperCase()}`; $('title').textContent = missions[state.step][1]; $('description').textContent = missions[state.step][2]; $('action').textContent = 'VALIDAR OPERAÇÃO →'; $('action').disabled = false; $('action').onclick = validate; draw(); open() } function draw() {
+            const i = current.index; let html = ''; if (i === 0) { html = '<div class="instructions">Clique em um item e depois em seu destino. Cada acerto conta; uma classificação errada prejudica a recuperação.</div><div class="tiles">' + triage.map((x, n) => `<button class="tile ${current.answers[n] ? 'done' : ''} ${current.selected === n ? 'active' : ''}" data-pick="${n}" ${current.answers[n] ? 'disabled' : ''}><span class="emoji">${x[0]}</span>${x[1]}<small class="tile-status">${current.answers[n] ? '→ ' + current.answers[n] : 'Selecione o destino'}</small></button>`).join('') + '</div><div class="targets">' + ['Manter', 'Manutenção', 'Descartar'].map((t, n) => `<button class="target" data-target="${t}">${['<span class="material-symbols-outlined mi" aria-hidden="true">check_circle</span>', '<span class="material-symbols-outlined mi" aria-hidden="true">build</span>', '<span class="material-symbols-outlined mi" aria-hidden="true">recycling</span>'][n]}<br>${t}</button>`).join('') + '</div>'; }
+            if (i === 1) { let n = Object.keys(current.answers).length; html = `<div class="instructions">Carga ${Math.min(n + 1, 4)} de 4. Analise peso, giro e fragilidade. Escolha um endereço.</div><div class="map"><span class="material-symbols-outlined mi" aria-hidden="true">local_shipping</span> ━ <span class="material-symbols-outlined mi" aria-hidden="true">inventory_2</span> ━ <span class="material-symbols-outlined mi" aria-hidden="true">factory</span> ━ <span class="material-symbols-outlined mi" aria-hidden="true">shelves</span></div>` + (n < 4 ? `<div class="panel"><h2>${loads[n].item}</h2><p>${loads[n].desc}</p></div><div class="routeGrid">${current.locationOrder.map(j => `<button class="route" data-loc="${j}">${locations[j]}</button>`).join('')}</div>` : '<div class="feedback">Todas as cargas foram endereçadas. Valide para conferir a eficiência das rotas.</div>'); }
+            if (i === 2) { html = '<div class="instructions">Identifique exatamente os cinco riscos operacionais. Selecionar condições seguras reduz sua pontuação.</div><div class="hazards">' + current.riskOrder.map(n => { const x = risks[n]; return `<button class="hazard ${current.checks.includes(n) ? 'fixed' : ''}" data-risk="${n}"><span>${x[0]}</span>${x[1]}<br><small>${current.checks.includes(n) ? '<span class="material-symbols-outlined mi" aria-hidden="true">check</span> Marcado' : 'Clique para inspecionar'}</small></button>` }).join('') + '</div>'; }
+            if (i === 3) { html = '<div class="instructions">Monte o fluxo operacional correto. Use as setas para mudar a ordem; cada posição correta vale pontos.</div><div class="orderList">' + current.order.map((x, n) => `<div class="orderItem"><span class="num">0${n + 1}</span>${x}<div class="arrows"><button class="mini" data-move="${n},-1" ${n === 0 ? 'disabled' : ''}>↑</button><button class="mini" data-move="${n},1" ${n === 5 ? 'disabled' : ''}>↓</button></div></div>`).join('') + '</div>'; }
+            if (i === 4) { html = '<div class="instructions">Escolha apenas as ações que realmente sustentam o 5S. Cuidado com medidas que parecem rápidas, mas prejudicam a cultura.</div><div class="auditGrid">' + current.auditOrder.map(n => { const x = audit[n]; return `<button class="audit ${current.checks.includes(n) ? 'selected' : ''}" data-audit="${n}"><b>${current.checks.includes(n) ? '<span class="material-symbols-outlined mi" aria-hidden="true">check_box</span>' : '<span class="material-symbols-outlined mi" aria-hidden="true">check_box_outline_blank</span>'} ${x[0]}</b><small>${current.checks.includes(n) ? 'Incluída no plano' : 'Clique para incluir'}</small></button>` }).join('') + '</div>'; }
+            if (i === 5) { const chosen = current.checks; const used = chosen.reduce((a, n) => a + practices[n][1], 0); html = `<div class="instructions">Benchmarking fictício: compare boas práticas de operadores concorrentes e monte um plano com até <b>R$ 3.200</b>. Nem toda tecnologia cara traz retorno.</div><div class="counter">Investimento selecionado: ${fmt(used)} / R$ 3.200</div><div class="compare">${practices.map((x, n) => `<button class="choice ${chosen.includes(n) ? 'selected' : ''}" data-practice="${n}"><strong>${chosen.includes(n) ? '<span class="material-symbols-outlined mi" aria-hidden="true">check_box</span> ' : '<span class="material-symbols-outlined mi" aria-hidden="true">check_box_outline_blank</span> '}${x[0]}</strong><small>${x[2]}</small><b>${fmt(x[1])}</b></button>`).join('')}</div>`; }
+            $('game').innerHTML = html; $('counter').textContent = ['Itens classificados: ' + Object.keys(current.answers).length + '/8', 'Cargas alocadas: ' + Object.keys(current.answers).length + '/4', 'Itens sinalizados: ' + current.checks.length, 'Sequência com 6 operações', 'Ações selecionadas: ' + current.checks.length, 'Plano de investimento'][i]; document.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => { current.selected = +b.dataset.pick; draw() }); document.querySelectorAll('[data-target]').forEach(b => b.onclick = () => { if (current.selected === null) return; current.answers[current.selected] = b.dataset.target; current.selected = null; draw() }); document.querySelectorAll('[data-loc]').forEach(b => b.onclick = () => { current.answers[Object.keys(current.answers).length] = +b.dataset.loc; draw() }); document.querySelectorAll('[data-risk]').forEach(b => b.onclick = () => toggle(+b.dataset.risk)); document.querySelectorAll('[data-audit]').forEach(b => b.onclick = () => toggle(+b.dataset.audit)); document.querySelectorAll('[data-practice]').forEach(b => b.onclick = () => toggle(+b.dataset.practice)); document.querySelectorAll('[data-move]').forEach(b => b.onclick = () => { let [n, d] = b.dataset.move.split(',').map(Number);[current.order[n], current.order[n + d]] = [current.order[n + d], current.order[n]]; draw() })
+        } function toggle(n) { current.checks = current.checks.includes(n) ? current.checks.filter(x => x !== n) : [...current.checks, n]; draw() }
+        function validate() {
+            if (completed) { close(); if (state.step === 6) report(); return } const i = current.index; let correct = 0, total = 0, expense = [650, 950, 850, 1100, 750, 0][i], detail = ''; if (i === 0) { total = 8; correct = triage.filter((x, n) => current.answers[n] === x[2]).length; detail = 'Triagem correta evita perdas e mantém materiais aproveitáveis em circulação.' } if (i === 1) { total = 4; correct = loads.filter((x, n) => current.answers[n] === x.best).length; detail = 'Endereçamento adequado reduz deslocamentos, riscos e tempo de separação.' } if (i === 2) { total = 9; correct = risks.filter((x, n) => current.checks.includes(n) === x[2]).length; detail = 'Identificar riscos reais e preservar condições seguras evita paradas desnecessárias.' } if (i === 3) { total = 6; correct = current.order.filter((x, n) => x === process[n]).length; detail = 'O fluxo padronizado reduz retrabalho e falhas entre setores.' } if (i === 4) { total = 8; correct = audit.filter((x, n) => current.checks.includes(n) === x[1]).length; detail = 'Disciplina depende de treinamento, auditoria e acompanhamento contínuo.' } if (i === 5) { const chosen = current.checks; expense = chosen.reduce((a, n) => a + practices[n][1], 0); const productive = chosen.reduce((a, n) => a + practices[n][3], 0), org = chosen.reduce((a, n) => a + practices[n][4], 0), qual = chosen.reduce((a, n) => a + practices[n][5], 0); total = 100; correct = expense <= 3200 ? Math.min(100, Math.round((productive + org + qual) / .82)) : 0; detail = 'Um bom benchmarking adapta práticas à realidade e testa custo-benefício; não é copiar tudo.'; if (!chosen.length) { $('counter').textContent = 'Selecione ao menos uma prática antes de validar.'; return } }
+            if (i === 0 && Object.keys(current.answers).length < 8 || i === 1 && Object.keys(current.answers).length < 4) { $('counter').textContent = 'Complete todas as tarefas antes de validar.'; return } let ratio = correct / total, points = Math.round(ratio * 100); const boosts = [[15, 18, 8], [17, 16, 10], [8, 12, 19], [14, 12, 16], [12, 12, 16], [20, 17, 20]][i]; const old = { ...state }; state.productivity = clamp(state.productivity + Math.round(boosts[0] * ratio)); state.organization = clamp(state.organization + Math.round(boosts[1] * ratio)); state.quality = clamp(state.quality + Math.round(boosts[2] * ratio)); state.budget -= expense; state.score += points; state.step++; save(); render(); completed = true; $('feedback').hidden = false; $('feedback').className = 'feedback ' + (ratio < .7 ? 'warn' : ''); $('feedback').innerHTML = `<b>${ratio >= .85 ? '<span class="material-symbols-outlined mi" aria-hidden="true">emoji_events</span> Excelente execução!' : ratio >= .6 ? '<span class="material-symbols-outlined mi" aria-hidden="true">settings</span> Operação concluída com ajustes necessários' : '<span class="material-symbols-outlined mi" aria-hidden="true">warning</span> Operação com falhas importantes'}</b><p>${detail}</p><b>Desempenho: ${correct}/${total} • +${points} pontos</b><div class="resultGrid"><span><span class="material-symbols-outlined mi" aria-hidden="true">local_shipping</span> Produtividade: ${old.productivity}% → <b>${state.productivity}%</b></span><span><span class="material-symbols-outlined mi" aria-hidden="true">inventory_2</span> Organização: ${old.organization}% → <b>${state.organization}%</b></span><span><span class="material-symbols-outlined mi" aria-hidden="true">check</span> Qualidade: ${old.quality}% → <b>${state.quality}%</b></span><span><span class="material-symbols-outlined mi" aria-hidden="true">account_balance_wallet</span> Investimento: <b>${fmt(expense)}</b></span></div><small>Os indicadores representam uma simulação educacional, não métricas de uma empresa real.</small>`; $('action').textContent = state.step === 6 ? 'VER RELATÓRIO FINAL →' : 'PRÓXIMA MISSÃO →'; $('counter').textContent = 'Missão concluída • ' + points + '/100 pontos'; $('feedback').scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        }
+        function report() { const success = state.productivity >= 80 && state.organization >= 80 && state.quality >= 80 && state.budget >= 0; $('eyebrow').textContent = 'RELATÓRIO FINAL • OPERAÇÃO EFICIÊNCIA'; $('title').textContent = success ? '<span class="material-symbols-outlined mi" aria-hidden="true">emoji_events</span> Empresa recuperada!' : '<span class="material-symbols-outlined mi" aria-hidden="true">monitoring</span> Recuperação parcial'; $('description').textContent = success ? 'Você atingiu as metas de eficiência e controlou o orçamento.' : 'A empresa avançou, mas ainda precisa de melhorias. Refaça as missões e teste novas estratégias.'; $('game').innerHTML = `<div style="font-size:56px;color:var(--orange);font-weight:900">${state.score}<small style="font-size:18px"> / 600 pontos</small></div><div class="resultGrid"><span>Produtividade: <b>${state.productivity}%</b></span><span>Organização: <b>${state.organization}%</b></span><span>Qualidade: <b>${state.quality}%</b></span><span>Saldo: <b>${fmt(state.budget)}</b></span></div><p>Metas: 80% em produtividade, organização e qualidade, com saldo não negativo. Benchmarking e resultados são fictícios.</p>`; $('feedback').hidden = true; $('counter').textContent = 'Simulação concluída'; $('action').textContent = 'RECOMEÇAR SIMULAÇÃO →'; $('action').onclick = () => { reset(); close() }; $('action').disabled = false; open() } function reset() { state = initial(); save(); render() } $('start').onclick = openStage; $('close').onclick = close; $('reset').onclick = () => { if (confirm('Reiniciar todo o progresso?')) { reset(); close() } }; try { const s = JSON.parse(localStorage.getItem('operacaoMiniV2')); if (s && Number.isInteger(s.step) && s.step >= 0 && s.step <= 6) state = s } catch { } render();
+    </script>
+</body>
+
+</html>
